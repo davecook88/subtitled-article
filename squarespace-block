@@ -1,0 +1,330 @@
+<style>
+  #container {
+  position:relative;
+}
+.lang-select{
+  display:inline-block;
+  cursor:pointer;
+}
+.language{
+   list-style:none;
+  display:inline-block;
+  padding:0.5em;
+  border:1px outset;
+  margin:1em;
+  cursor:pointer;
+}
+.language:active {
+  border:1px inset;
+  padding-left:0.6em;
+  padding-right: 0.4em;
+}
+#trans {
+  position:fixed;
+  bottom:0;  
+  min-height:3em;
+  border:3px solid grey;
+  width:75%;
+  margin-left:12%;
+  background: #0c6394;
+  color:#fff;
+  padding: 0em 1em;
+}
+ #trans p, #trans h2, #trans h3{
+   color:#fff !important;
+  }
+
+.shadow {
+  -webkit-box-shadow: -2px 0px 61px -12px rgba(0,0,0,0.9);
+  -moz-box-shadow: -2px 0px 61px -12px rgba(0,0,0,0.9);
+  box-shadow: -2px 0px 61px -12px rgba(0,0,0,0.9);
+  }
+  
+  .toggle-subs {
+
+  display: inline-block;
+  cursor:pointer;
+  border:1px inset;
+  position:relative;
+}
+.toggle-50 {
+  display: inline-block;
+}
+.on{
+  padding:0.5em;
+  background:green;
+}
+.off{
+  padding:0.5em;
+  background:red;
+}
+  .switch{
+  position:absolute;
+  height:95%;
+  width:50%;
+  border:1px outset;
+  top:0;
+  right:0px;
+  background:#fff;
+}
+
+  @media only screen and (max-width: 600px) {
+    .lang-select {
+      margin:auto;
+      display:block;
+    }
+    #trans {
+        left:inherit;
+      	bottom:inherit;
+      	max-height:8em;
+      	overflow-y:scroll;
+      	margin-left:0;
+    }
+}
+</style>
+<div id="container">
+  <div class="lang-select">
+    <ul>
+      <li class="language" id="en">English</li>
+      <li class="language" id="es">Español</li>
+    </ul>
+  </div>
+  <div style="display:inline-block" id="subs-title">Subtitles:</div>
+  <div class="toggle-subs">
+    <div class="toggle-50 on">on</div>
+    <div class="toggle-50 off">off</div>
+    <div class="switch" id="sw" onClick="moveSwitch()"></div>
+  </div>
+  <div id="root"></div>
+  <div id="trans" class="shadow"></div>
+ </div>
+<script>
+const content = {
+	"en":{
+		1: `<p id="en-1" class="translation">I have always been fascinated by the concept of language. 
+			How can we transplant our thoughts into the mind of another person, 
+			make them laugh, cry or even change their outlook on the world just by making sounds in a particular sequence or by organizing symbols in order on a (web)page? 
+			It is because of language that I can share my ideas with you over enormous distances. When you read a book, you allow someone who may no longer even be alive to communicate with you. 
+			Learning a new language has many benefits, economic, social, cultural, amongst others but rarely do we take a moment to consider how amazing language really is.</p>`,
+			
+		2:`<p id="en-2" class="translation">Language is something uniquely human. Although many animals have sophisticated modes of communication, nothing approaches the complexity of the languages that we speak. 
+			Anybody learning a second language can attest to the myriad structures and rules that they feature and which are necessary to be able to express the subtleties of any given fragment of information that we may wish to transmit. 
+			Nevertheless, learning a language is remarkably simple - at least the first time round.  With few exceptions, every single person acquires a language and speaks it to a high degree of competence without giving it much thought during the first few years of their life; 
+			a period during which learning many other, seemingly more trivial abilities, would be unthinkable. 
+			Despite this ease of first language acquisition, the process of learning a new language later in life, while rewarding, often proves arduous.</p>`,
+			
+		3:	`<h2 id="en-3" class="translation">Does this mean that adults can’t learn another language?</h2>`,
+			
+		4:	`<p id="en-4" class="translation">Our many student success stories prove that it is perfectly possible for an adult to master another language, even if they have never studied it before. 
+			In fact, I am going to argue that in many ways, adults have the upper hand over children when it comes to learning a new language.</p>`,
+		
+		5:	`<p id="en-5" class="translation">In the ‘60s some research was published which suggested that there is a critical period for children during which a child’s brain has increased plasticity and more easily adapts to learn new things. 
+			The theory suggests that by the age of around 12 years, the brain begins to lose this plasticity and, consequently, language can no longer be learned implicitly. This does not mean that a language can no longer be learned, 
+			it just means that we can no-longer soak up the words that we hear like a sponge and gain the ability to reproduce phrases without trying.</p>`,		
+		
+		6:	`<h2 id="en-6" class="translation">Time</h2>`,	
+
+		7:	`<p id="en-7" class="translation">It seems too obvious to mention that children acquire language more quickly than adults. 
+			However, if we take a closer look, it’s not really that simple. In fact, children spend years practicing a language before they are capable of using it proficiently. 
+			Although a child may begin to produce their first utterances at around two years old, they do not become fully adept until much later. 
+			Very few five-year-olds are particularly erudite and, depending on your criteria, you may argue that proficiency is not attained until the late teens (or much later). </p>`,
+			
+		8:	`<p id="en-8" class="translation">Compare this with an adult language-learner. It is perfectly possible to be able to communicate after just a few months of studying and, 
+			given consistent, deliberate practice, a student can become highly proficient within two years. When students compare their level of English with native speakers,
+			they often feel inadequate but this can never be a fair comparison when native speakers have had decades of exposure.</p>`,
+   
+    9:	`<h2 id="en-9" class="translation">Effort</h2>`,
+    
+    10:	`<p id="en-10" class="translation">Many people have the impression that children aborb language effortlessly and gain fluency without anything like the level of dedication required of adult learners. I’d suggest that this is far from the truth. Young children spend every waking moment trying to communicate. It takes a child years of frustration before they can accurately articulate their thoughts.</p>`,
+    
+    11:	`<p id="en-11" class="translation">Even the most dedicated adult learners will rarely dedicate more than a few hours per day to their language studies. They have other responsibilities which have to take precedence. Fortunately, adult learners are better able to structure the time that they spend studying in order to maximise the benefits of their studies. As such, an adult learner achieves much more from their time investment.</p>`,
+    
+    12:	`<h2 id="en-12" class="translation">Social Standing</h2>`,
+    
+    13:	`<p id="en-13" class="translation">Languages are by their very nature social constructs. They exist to allow communication between people and as such shape and are shaped by the social standing of individuals in ways far too nuanced to discuss here. The social standing of an individual has a profound impact on their success as a language learner.</p>`,
+    
+    14:	`<p id="en-14" class="translation">Consider a family who moves to a new country. The child goes to school and, in what appears to be a very short space of time, becomes proficient in the language, while the parents continue to struggle. This situation is very common and helps fuel the belief that children learn more quickly than adults. Lets consider the social environment of the different family members, though.</p>`,
+    
+    15:	`<p id="en-15" class="translation">The child is at school, surrounded by kids their own age with no option but to communicate with them in the new language. Children are rarely shy about letting you know their thoughts and as a result, our transplant is given constant feedback about any errors that they make. In addition, the teachers in the school feel free to correct the student in order to improve their rate of acquisition.</p>`,
+    
+    16:	`<p id="en-16" class="translation">One of the parents was transferred to the new country by their company and enters the local office in a high position. Many of the colleagues in the office already speak their native language, making communication much easier. On the occasions that the parent is required to speak the local language, it is normally to subordinates. Despite the less-than-perfect use of the local tongue, communication is effective in the majority of instances and the locals are far too polite to correct their boss on their mistakes as they are keen to make a good impression.</p>`,
+    
+    17:	`<p id="en-17" class="translation">The other parent finds part-time work in a low-skilled job to stay busy during the day. Due to their lack of language skills, they found a non-customer-facing job in which communication is not a principle requirement. Normally the local language is used for passing instructions to them by a superior. Due to the difference in status between the parent and the locals, the parent feels very nervous about speaking, anxious about the mistakes they will make. As such, they naturally keep quiet unless absolutely necessary. Much like their partner, few people comment on mistakes out of politeness or indifference.</p>`,
+    
+    18:	`<p id="en-18" class="translation">As we can see, adult learners often find themselves in more challenging situations if they need to learn a new language compared to children. It is interesting to note, however that children also experience the same difficulties when found in the same situation:</p>`,
+    
+    19:	`<p id="en-19" class="translation">Jim was born to deaf parents who could not communicate with him verbally. They would regularly leave him to watch television, which provided him with ample imput of the language, enough for him to learn to speak. At 3 years and 9 months of age, it was noted that, while Jim tried to communicate in an appropriate way for his age, he was ungrammatical and showed unusual word choice and syntax. Fortunately, with some specialist help, Jim was able to catch up with his peers by the time he was 4 years and 2 moths old. This case clearly indicates the importance of appropriate feedback in language learning at all ages.</p>`,
+    
+    20:	`<h2 id="en-20" class="translation">What does this mean for adult language learners?</h2>`,
+    
+    21:	`<p id="en-21" class="translation">As we have seen, there are several challenges that confront adult language learners but many of these are situational, ie. confidence, opportunities to practice and other responisbilities to get in the way. On the other hand, adults enjoy a number of advantages compared to children, which when properly taken advantage of can make adults much more effective overall. With this in mind, here are our top tips:</p>`,
+    
+    22:	`<h3 id="en-22" class="translation">Set a schedule</h3>`,
+    
+    23:	`<p id="en-23" class="translation">Adults have all sorts of responsibilities which get in the way of studying a new language. If you can consistantly devote some time every day to improve a specific facet of your linguistic knowledge, you will see a dramatic improvement quickly.</p>`,
+    
+    24:	`<h3 id="en-24" class="translation">Take responsibility for your learning</h3>`,
+    
+    25:	`<p id="en-25" class="translation">Children have to do what they are told and they adapt to whatever stimulus is around them. Adults have the advantage of being able to identify the points that they need to improve and work on them specifically. Test yourself, find your weak points and make a plan to improve.</p>`,
+    
+    26:	`<h3 id="en-26" class="translation">Find a teacher or study partner</h3>`,
+    
+    27:	`<p id="en-27" class="translation">As we have seen, feedback is essential if you want to improve but adults are typically too polite to offer it freely. You need someone you can trust to tell you when you’re not making sense.</p>`,
+    
+    28:	`<h3 id="en-28" class="translation">Immerse yourself</h3>`,
+    
+    29:	`<p id="en-29" class="translation">It’s rare that an adult will find themselves thrown in the deep-end in a truly immersive situation when it comes to language learning, as children more often are. You can combat this with simple steps such as listening to podcasts, music and TV shows. You may not understand everything at first but gradually it will become clearer. This does not replace your <strong>targeted and deliberate</strong> study time.</p>`,
+			
+	},	
+	
+	"es":{
+		1: `<p id="es-1" class="translation">Siempre me ha fascinado el concepto de lenguaje. ¿Cómo puede ser que podemos transplantar nuestros pensamientos transplantar nuestros pensamientos en la mente de ajenos, hacerlos reír, llorar o hasta 
+			cambiarles la perspectiva en asuntos importantes por simplemente producir sonidos en secuencias particulares o por poner símbolos en ordén en una página (web)?
+			Es por lenguaje que yo puedo compartir mis ideas contigo tras largas distancias. Cuando lees un libro, permites a que alguien, que posiblemente ya no esté vivo, cominuque contigo.
+			Aprender otro idioma tiene varios ventajas económicas, sociales, culturales entre otros, pero rara vez nos permitimos a contemplar lo rocambolesco que es lenguaje.</p>`,
+			
+		2:	`<p id="es-2" class="translation">El lenguaje es algo unicamente humano. Aunque muchos animales tienen medios de comunicación sofisticados, no hay nada que se aproxime la complejidad de los idiomas que usamos nosotros.
+			Cualquier persona que está en el proceso de aprender un idioma puede afirmar que existen una catidad aparentemente inumerable de reglas y estructuras y todos estos son necesarios para expresar las sutilezas de cualquier fragmento de información que queramos transmitir.
+			No obstante, aprender un idioma es sumamente fácil, por lo menos la primera vez. Con pocas excepciones, cada persona adquiere un idioma y lo llega a utilizar con bastante competencia sin siquiera pensarlo durante los primeros años de vida, lo cual representa un
+			periodo durante el que aprender otras habilidades, supuestamente banales, sería inconcebible. A pesar de la facilidad de la adquisición de un primer idioma, el proceso de aprender otro idioma posteriormente es otra cosa.</p>`,
+			
+		3:	`<h2 id="es-3" class="translation">¿Eso significa que los adultos no pueden aprender otro idioma?</h2>`,
+		
+		4:	`<p id="es-4" class="translation">El éxito de mucho estudiantes que han estudiado con nosotros compruebe que es perfectamente posible que un adulto llegue a dominar otro idioma, aunque nunca lo haya estudiado antes.
+			De hecho, voy a proponer que en muchas maneras, los adultos tiene la ventaja en el aprendizaje de otros idiomas.</p>`,
+
+		5:	`<p id="es-5" class="translation">En los años 60 se publicó una investigación que sugerió que existe un periodo crítico en el desarrollo de niños en el que el cerebro de los niños cuenta con más plasticidad y se adapta más facilmente a fin de
+			aprender cosas nuevas. La teoría sugiere que, alrededor de los 12 años, de empieza a perder esta plasticidad y, por consecuencia, el aprendizaje de idiomas ya no sucede espontaneamente. Esto no significa que ya no se puede aprender un idioma, solamente
+			indica que a partir de ese punto, ya no se puede absorber como esponja las palabras que escuchamos y llegar a poder utilizarlas sin esfuerzo.</p>`,
+		
+		6:	`<h2 id="es-6" class="translation">Tiempo</h2>`,
+
+		7:	`<p id="es-7" class="translation">Quizá parezca una obviedad que los niños adquieren lenguaje de manera más rápida que los adultos.
+			Sin embargo, si lo considaramos bien, no es así de sencillo. En realidad, los niños tardan años practicando antes de que sean capaces de usar un idioma de forma competente.
+			Puede que un niño produzca sus primeras palabras a las 2 años, no llegan a ser diestros hasta mucho más tarde.
+			Hay muy pocos niños eruditos con 5 años y, dependiendo de tus criterios, podrías decir que el dominio del idioma no viene hasta la adolescencia (o mucho más tarde).</p>`,	
+		8:	`<p id="es-8" class="translation">Comparemos esto con un estudiante de idiomas adulto. Es muy posible llegar a poder comunicar tras unos pocos meses de estudios y, 
+			dado práctica consistente y deliberada, se puede hablar con mucha eficacia dentro de dos años. Cuando un estudiante se compara con hablantes nativos,
+			se desmotiva aunque no es justo compararse con alguien que tenga décadas de exposición al idioma.</p>`,
+    
+    9:	`<h2 id="es-9" class="translation">Esfuerzo</h2>`,
+    
+    10:	`<p id="es-10" class="translation">Mucha gente tiene la impresión de que los niños absorben los idiomas sin ningún esfuerzo y llegan a hablar con fluidez sin necesitar la dedicación requirida por estudiantes mayores. Esto no es totalmente viridico. Los niños jóvenes pasan todo momento que están despiertos practicando el idioma. Un niño tiene que aguantar años de frustración para que puedan expresar sus pensamientos con claridad.</p>`,
+    
+    11:	`<p id="es-11" class="translation">Hasta los adultos más dedicados rara vez proporcionan más de unas horas diarios a sus estudios lingüísticos. Tienen otras responsabilidades que tienen prioridad. Afortunadamente, estudiantes adultos tienen la ventaja de poder estructurar el tiempo que estudian para maximizar los beneficios que sacan de ese esfuerzo. Por lo tanto, los adultos consiguen más relativo al tiempo invertido.</p>`,
+    
+    12:	`<h2 id="es-12" class="translation">Posición social</h2>`,
+    
+    13:	`<p id="es-13" class="translation">Los idiomas son construcciones sociales por naturaleza. Existen para posibilitar la comunicación entre personas y como tal, forman y son formados por la posición social de los individuos de maneras mucho más numerosas para nombrarse aquí. La posición social de una persona tiene un impacto profundo en su desempeño en el aprendizaje de idiomas.</p>`,
+    
+    14:	`<p id="es-14" class="translation">Consideremos una familia que se translada a otro país. El hijo entra la escuela y, en lo que parece ser un periodo de tiempo bastante corto, llega a dominar el idioma, mientras tanto los papás siguen batallando. Es una situación usual y ayuda a abonar la creencia de que los niños aprender más rápido de los adultos. Pero examinemos más detalladamente la situación de cada miembro de la familia.</p>`,
+    
+    15:	`<p id="es-15" class="translation">El hijo se encuentra en una escuela, rodeado por compañeros de su edad y no le queda otra opción que comunicar con ellos en el idioma nuevo. Es raro que los niños son tímidos en cuanta a compartir sus pensamientos y, consecuentemente el nuevo recibe retroalimentación constante de todos los errores que comete. Además, los maestros en la escuela se sienten libres de corregirle al niño para facilitarle la adquisición del idioma.</p>`,
+    
+    16:	`<p id="es-16" class="translation">El papá vino al país nuevo debido a una transeferencia en su trabajo y llegar a la oficina local en una posición alta. La mayoría de sus colegas ya hablan bien el idioma del papá que le hace más fácil la comunicación. Sólo se le hace necesario al papá utilizar el idioma local cuando se trata de dar instrucciones a los subordinados. A pesar de que su dominio del idioma falta mucho, se puede comunicar en la mayoría de las casos y los subordinados son demasiado educados para corregirle a su jefe, además quieren darle buena impresión.</p>`,
+    
+    17:	`<p id="es-17" class="translation">La mamá encuentra un empleo a tiempo parcial para estar ocupada durante el día. Por su falta de dominio del idioma, encontró un trabajo que require pocas calificaciones en el que no hay que tratar directamente con el público. Cuando usa el idioma local es cuando su jefa le da instrucciones. Ya que hay una diferencia de estatus entre la mamá y los de allí, le da pena hablar, sintiéndose ansiosa por los errores que va a cometer. Así, se queda callada a menos que sea totalmente necesario. Igual como su pareja, son pocas las personas que le corrigen por educación o indiferencia.</p>`,
+    
+    18:	`<p id="es-18" class="translation">Ahora vemos que los adultos suelen encontrarse en situaciones menos aptos para la adquisición de idiomas comparado a los hijos. Sin embargo, es interesante notar que los niños también enfrenten problemas en la misma situación:</p>`,
+    
+    19:	`<p id="es-19" class="translation">Los papás de Jim eran sordos y no podían comunicar con él verbalmente. A menudo lo dejaban ver televisión lo cual lo permitió bastante exposición al idioma para aprender a hablar. A los 3 años y 9 meses de edad, se notó que, aunque Jim trataba de comunicar de una manera apropriada para su edad, no fue gramátical lo que producía en cuanto a vocabulario y sintaxis. Afortunadamente, con algo de ayuda especialista, Jim pudo alcanzar a sus compañeros lingüísticamente para cuando tenía 4 años y 2 meses. Este caso indica claramente la importancia de retroalimentación en el proceso de aprender idiomas, lo que sea la edas.</p>`,
+    
+    20:	`<h2 id="es-20" class="translation">¿Qué significa esto para los adultos que quieren aprender otro idioma?</h2>`,
+    
+    21:	`<p id="es-21" class="translation">Como acabamos de ver, existen varios retos que enfenten a los estudiantes adultos pero entre ellos muchos son debidos a la situación por ejemplo, autoestima, oportunidades para practicar y otras responsabilidades que estorban los estudios. Por otro lado, los adultos disfrutan de muchas ventajas comparado a los niños, que pueden hacerlos más eficientes cuando se aprovechan al máximo. Con esto en la mente, aquí están mis consejos:</p>`,
+    
+    22:	`<h3 id="es-22" class="translation">Establece un horario</h3>`,
+    
+    23:	`<p id="es-23" class="translation">Los adultos tienen todo tipo de responsabilidades que impiden a sus estudios. Si puedes apartar un tiempo diario para estudiar un aspecto específico de tu conocimiento lingüístico, verás progreso rápido.</p>`,
+    
+    24:	`<h3 id="es-24" class="translation">Toma la responsabilidad para tu aprendizaje</h3>`,
+    
+    25:	`<p id="es-25" class="translation">Los niños tienen que hacer lo que mandan otros y adapten a los estímulos en su alrededor. Los adultos tienen la ventaja de poder identificar sus puntos débiles que hay que mejorar y trabajar en ellos especificamente. Hazte pruebas, descubre qué te falta y crea un plan para mejorarlo.</p>`,
+    
+    26:	`<h3 id="es-26" class="translation">Encuentra un maestro o compañero de estudio</h3>`,
+    
+    27:	`<p id="es-27" class="translation">Como hemos visto, la retroalimentación es esencial si quieres mejorar pero los adultos tienden a ser demasiado educados para ofrecerla libremente. Necesitas a alguien a quien te puedas confiar que te diga cuando no hace sentido los que dices.</p>`,
+    
+    28:	`<h3 id="es-28" class="translation">Sumergite</h3>`,
+    
+    29:	`<p id="es-29" class="translation">Es muy raro que un adulto se encuentre soltado al rodeo en una situación verderamente inmersiva en cuanto al aprendizaje de idiomas, como sucede con los niños. Esto se puede solucionar tomando medidas como escuchar podcasts, peliculas y  ver programas de tele. Tal vez no entiendas todo desde el principio pero poco a poco las cosas se aclararán. Ojo, eso no remplaza el tiempo de estudio <strong>dedicado y deliberado</strong>.</p>`,			
+		}		
+};
+let subs = true;
+const mob =  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+let trans = $("#trans");
+let lang;
+const root = $("#root");
+
+const clearPage = () => {
+  root.html("");
+}
+
+const populatePage = () => {
+  for (let item in content[lang]) {
+    root.append(content[lang][item]);
+  }
+}
+
+trans.hide();
+
+
+
+
+$(".language").click(function() {
+  lang = this.id;
+  if (lang == "es") {
+    $("#subs-title").html("subtítulos");
+  } else {
+    $("#subs-title").html("subtitles");
+  }
+  clearPage();
+  populatePage();
+  
+  $(".translation").hover(function(e) {
+    showTranslation(e)
+  }, () => {
+      let trans = $("#trans");
+      if (!trans.is(":hover") && !mob) trans.hide();
+    })
+  })
+
+
+  function showTranslation(e) {
+      let trans = $("#trans");  
+      if(!subs) {
+        trans.hide();
+        return;
+      }
+          
+      trans.show();
+      const lang = e.currentTarget.id.split("-")[0] === "es"? "en" : "es";
+      const paragraph = e.currentTarget.id.split("-")[1];
+      const text = content[lang][paragraph];
+
+      trans.html(text);
+      if(mob) {
+        console.log(e);
+        let trans = $("#trans");
+        trans.show();
+        trans.css("top",e.pageY + "px");
+      } else {
+        trans.css("margin-left",`-${carouselMinusMargin}px`);
+      }
+    }
+  function moveSwitch() {
+   const el = document.getElementById('sw');
+   const style = getComputedStyle(el);
+   console.log(style);
+   if (style.right === "0px"){
+     el.style.cssText = 'right:48%';
+   } else {
+     el.style.cssText = 'right:0;'
+   }
+  subs = !subs;
+  if (!subs) {
+    $("#trans").hide();
+  }
+}
+
+</script>
